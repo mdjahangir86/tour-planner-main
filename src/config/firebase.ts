@@ -7,9 +7,9 @@ const { REACT_APP_FB_API, REACT_APP_FB_APP_ID, REACT_APP_FB_MSG_ID } =
 
 const firebaseConfig = {
   apiKey: REACT_APP_FB_API,
-  authDomain: 'tour-planner-bd.firebaseapp.com',
-  projectId: 'tour-planner-bd',
-  storageBucket: 'tour-planner-bd.appspot.com',
+  authDomain: 'tourism-a323b.firebaseapp.com',
+  projectId: 'tourism-a323b',
+  storageBucket: 'tourism-a323b.appspot.com',
   messagingSenderId: REACT_APP_FB_MSG_ID,
   appId: REACT_APP_FB_APP_ID,
 };
