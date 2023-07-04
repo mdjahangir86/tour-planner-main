@@ -12,6 +12,7 @@ import {
 import { localNumberFormat } from '@utils/formatters';
 import { collection, getDocs } from 'firebase/firestore';
 import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 export interface Response {
   id: string;
@@ -29,6 +30,7 @@ export interface Response {
 function Packages() {
   const [packages, setPackages] = useState<Response[]>([]);
   const [isLoading, setIsLoading] = useState(false);
+  const navigate = useNavigate();
 
   const collectionRef = collection(db, 'packages');
 
@@ -57,6 +59,16 @@ function Packages() {
       <Typography variant="h4" fontWeight={700} textAlign="center">
         Packages
       </Typography>
+
+      <Box textAlign="center" my={3}>
+        <Button
+          variant="contained"
+          onClick={() => navigate('/packages/custom')}
+        >
+          Create Package
+        </Button>
+      </Box>
+
       <Container>
         <Box
           width="100%"
@@ -84,39 +96,37 @@ function Packages() {
             </Box>
           )}
 
-          {packages.map(({ id, title, cost, duration, img }) => (
-            <MediaCard
-              key={id}
-              url={`${id}`}
-              title={title}
-              mediaUrl={img}
-              mediaAlt={`img-${id}`}
-              mediaHeight="320"
-              actions={
-                <Box
-                  display="flex"
-                  justifyContent="center"
-                  gap={1}
-                  width="100%"
-                  paddingBottom={2}
-                >
-                  <Paper sx={{ backgroundColor: 'primary.light' }}>
-                    <Typography color="white" paddingX={1} variant="h6">
-                      {localNumberFormat({ number: cost })}
-                    </Typography>
-                  </Paper>
-                  <Paper>
-                    <Typography paddingX={1} variant="h6">
-                      {duration}
-                    </Typography>
-                  </Paper>
-                </Box>
-              }
-            />
-          ))}
-        </Box>
-        <Box textAlign="center">
-          <Button variant="outlined">Load More</Button>
+          {!isLoading &&
+            packages.map(({ id, title, cost, duration, img }) => (
+              <MediaCard
+                key={id}
+                url={`${id}`}
+                title={title}
+                mediaUrl={img}
+                mediaAlt={`img-${id}`}
+                mediaHeight="320"
+                actions={
+                  <Box
+                    display="flex"
+                    justifyContent="center"
+                    gap={1}
+                    width="100%"
+                    paddingBottom={2}
+                  >
+                    <Paper sx={{ backgroundColor: 'primary.light' }}>
+                      <Typography color="white" paddingX={1} variant="h6">
+                        {localNumberFormat({ number: cost })}
+                      </Typography>
+                    </Paper>
+                    <Paper>
+                      <Typography paddingX={1} variant="h6">
+                        {duration}
+                      </Typography>
+                    </Paper>
+                  </Box>
+                }
+              />
+            ))}
         </Box>
       </Container>
     </Box>

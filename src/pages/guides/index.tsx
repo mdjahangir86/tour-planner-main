@@ -3,7 +3,6 @@ import MediaCard from '@components/media-card';
 import { db } from '@config/firebase';
 import {
   Box,
-  Button,
   CircularProgress,
   Container,
   Paper,
@@ -114,9 +113,6 @@ function Guides() {
               }
             />
           ))}
-        </Box>
-        <Box textAlign="center">
-          <Button variant="outlined">Load More</Button>
         </Box>
       </Container>
     </Box>

@@ -5,6 +5,7 @@ import { useAppDispatch, useAppSelector } from '@hooks/useRedux';
 import DashboardLayout from '@layouts/DashboardLayout';
 import SiteLayout from '@layouts/SiteLayout';
 import UserProfile from '@pages/dashboard/Profile';
+
 import { initialAuthCheck } from '@store/user/authSlice';
 import { lazy, Suspense, useEffect } from 'react';
 import { Route, Routes, useLocation } from 'react-router-dom';
@@ -17,12 +18,19 @@ const GuideDetails = lazy(() => import('@pages/guides/GuideDetails'));
 
 const Packages = lazy(() => import('@pages/packages'));
 const PackageDetails = lazy(() => import('@pages/packages/PackageDetails'));
+const CustomPackage = lazy(() => import('@pages/packages/CustomPackage'));
 
 const Authentication = lazy(() => import('@pages/Authentication'));
 
 const ManagePackages = lazy(() => import('@pages/dashboard/ManagePackages'));
 const ManageGuides = lazy(() => import('@pages/dashboard/ManageGuides'));
 const ManageBookings = lazy(() => import('@pages/dashboard/ManageBookings'));
+const ManageCustomBookings = lazy(
+  () => import('@pages/dashboard/ManageCustomBookings')
+);
+const MyCustomBookings = lazy(
+  () => import('@pages/dashboard/MyCustomBookings')
+);
 const MyBookings = lazy(() => import('@pages/dashboard/MyBookings'));
 const ManagePackagesForm = lazy(
   () => import('@pages/dashboard/ManagePackagesForm')
@@ -63,6 +71,7 @@ function App() {
 
           <Route path="packages" element={<Packages />} />
           <Route path="packages/:itemId" element={<PackageDetails />} />
+          <Route path="packages/custom" element={<CustomPackage />} />
 
           <Route element={<PrivateRoute />}>
             <Route path="/booking/:itemId" element={<BookingForm />} />
@@ -100,7 +109,15 @@ function App() {
                 path="/dashboard/manage-bookings"
                 element={<ManageBookings />}
               />
+              <Route
+                path="/dashboard/manage-custom-bookings"
+                element={<ManageCustomBookings />}
+              />
               <Route path="/dashboard/my-bookings" element={<MyBookings />} />
+              <Route
+                path="/dashboard/my-custom-bookings"
+                element={<MyCustomBookings />}
+              />
             </Route>
           </Route>
 

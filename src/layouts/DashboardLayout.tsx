@@ -17,20 +17,32 @@ const navItems = [
   },
   {
     id: 3,
+    name: 'My Custom Bookings',
+    url: '/dashboard/my-custom-bookings',
+    admin: false,
+  },
+  {
+    id: 4,
     name: 'Packages',
     url: '/dashboard/manage-packages',
     admin: true,
   },
   {
-    id: 4,
+    id: 5,
     name: 'Guides',
     url: '/dashboard/manage-guides',
     admin: true,
   },
   {
-    id: 5,
+    id: 6,
     name: 'Bookings',
     url: '/dashboard/manage-bookings',
+    admin: true,
+  },
+  {
+    id: 7,
+    name: 'Custom Bookings',
+    url: '/dashboard/manage-custom-bookings',
     admin: true,
   },
 ];

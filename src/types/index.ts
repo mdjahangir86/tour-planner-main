@@ -1,3 +1,4 @@
+import { User } from 'firebase/auth';
 import { Timestamp } from 'firebase/firestore';
 
 export interface ResponseType {
@@ -43,3 +44,20 @@ export interface ResponseTypeBooking {
   itemInfo: ResponseType;
   status: 'pending' | 'accepted' | 'canceled';
 }
+
+type CustomBooking = Omit<
+  ResponseType,
+  'id' | 'cost' | 'subTitle' | 'img' | 'images'
+>;
+
+export type ResponseTypeCustomBooking = CustomBooking & {
+  id?: string;
+  name: string;
+  phone: string;
+  budget: number;
+  userId: string;
+  userInfo: User;
+  updatedAt: Timestamp;
+  createdAt: Timestamp;
+  status: 'pending' | 'accepted' | 'canceled';
+};
