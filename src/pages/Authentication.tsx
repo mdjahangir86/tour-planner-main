@@ -91,7 +91,16 @@ function Authentication() {
       getDocs(q)
         .then((querySnapshot) => {
           if (querySnapshot.empty) {
-            addDoc(collectionRef, userData);
+            addDoc(collectionRef, userData)
+              .then(() => {
+                dispatch(setUserInfo({ userInfo: userData }));
+                setIsLoading(false);
+                navigate('/dashboard');
+              })
+              .catch((error) => setErrorMsg(error.message))
+              .finally(() => setIsLoading(false));
+
+            return;
           }
 
           let previousUserInfo;
