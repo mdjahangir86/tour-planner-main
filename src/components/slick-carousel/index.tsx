@@ -1,44 +1,12 @@
+/* eslint-disable react/require-default-props */
 /* eslint-disable react/jsx-props-no-spreading */
 import RouterLink from '@components/router-link';
 import { Box, Button, Paper, Typography } from '@mui/material';
 import Slider from 'react-slick';
 import 'slick-carousel/slick/slick-theme.css';
 import 'slick-carousel/slick/slick.css';
-import carouselImg from '../../assets/images/home/carousel/carousel-01.webp';
 import './index.css';
 
-const carouselItems = [
-  {
-    id: 1,
-    url: carouselImg,
-    title: 'The new way to plan your next trip',
-    subTitle: 'Create a fully customized day by day itinerary for free',
-    button: {
-      title: 'Start Planning',
-      url: '/packages',
-    },
-  },
-  {
-    id: 2,
-    url: carouselImg,
-    title: 'The new way to plan your next trip',
-    subTitle: 'Create a fully customized day by day itinerary for free',
-    button: {
-      title: 'Start Planning',
-      url: '/guides',
-    },
-  },
-  {
-    id: 3,
-    url: carouselImg,
-    title: 'The new way to plan your next trip',
-    subTitle: 'Create a fully customized day by day itinerary for free',
-    button: {
-      title: 'Start Planning',
-      url: '/guides',
-    },
-  },
-];
 const settings = {
   dots: true,
   infinite: true,
@@ -49,10 +17,29 @@ const settings = {
   autoplaySpeed: 3000,
 };
 
-export default function SlickCarousel() {
+export type CarouselItem = {
+  id: number;
+  url: string;
+  title: string;
+  subTitle: string;
+  button?: {
+    title: string;
+    url: string;
+  };
+};
+
+type SlickCarouselProps = {
+  items: CarouselItem[];
+  autoplaySpeed?: number;
+};
+
+export default function SlickCarousel({
+  items,
+  autoplaySpeed = 3000,
+}: SlickCarouselProps) {
   return (
-    <Slider {...settings}>
-      {carouselItems.map((item) => (
+    <Slider {...{ ...settings, autoplaySpeed }}>
+      {items.map((item) => (
         <Paper
           key={item.id}
           sx={{

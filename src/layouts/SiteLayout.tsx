@@ -23,6 +23,7 @@ import { resetAuth } from '@store/user/authSlice';
 import { useState } from 'react';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import { Outlet, useLocation } from 'react-router-dom';
+import Footer from './Footer';
 
 const drawerWidth = 240;
 const navItems = [
@@ -65,7 +66,7 @@ export default function SiteLayout() {
   const drawer = (
     <Box onClick={handleDrawerToggle} sx={{ textAlign: 'center' }}>
       <Typography variant="h6" sx={{ my: 2 }}>
-        Tour Planner
+        Tourism Agency
       </Typography>
 
       <Divider />
@@ -119,7 +120,7 @@ export default function SiteLayout() {
                   },
                 }}
               >
-                Tour Planner
+                Tourism Agency
               </Typography>
             </RouterLink>
           </Box>
@@ -231,17 +232,7 @@ export default function SiteLayout() {
         <Toolbar />
         <Outlet />
       </Box>
-      <Box
-        component="footer"
-        sx={{
-          padding: 3,
-          backgroundColor: 'primary.main',
-          textAlign: 'center',
-          color: '#fafafa',
-        }}
-      >
-        <Typography component="p">{`© ${new Date().getFullYear()}. All Rights Reserved.`}</Typography>
-      </Box>
+      <Footer />
     </Box>
   );
 }
