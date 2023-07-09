@@ -1,0 +1,9 @@
+Library used:
+Firebase auth,
+redux, 
+firestore database, 
+admin panel, 
+booking management system
+
+language:
+TypeScript (includes React Js)
