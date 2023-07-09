@@ -1,12 +1,13 @@
-import Card from '@mui/material/Card';
-import CardActions from '@mui/material/CardActions';
-import CardContent from '@mui/material/CardContent';
-import CardMedia from '@mui/material/CardMedia';
-import Typography from '@mui/material/Typography';
-import { useNavigate } from 'react-router-dom';
+import Card from "@mui/material/Card";
+import CardActions from "@mui/material/CardActions";
+import CardContent from "@mui/material/CardContent";
+import CardMedia from "@mui/material/CardMedia";
+import Typography from "@mui/material/Typography";
+import { useNavigate } from "react-router-dom";
 
 interface MediaCardProps {
   url?: string;
+  cardMinWidth?: number;
   cardMaxWidth?: number;
   mediaHeight?: string;
   mediaUrl: string;
@@ -18,6 +19,7 @@ interface MediaCardProps {
 
 export default function MediaCard({
   url,
+  cardMinWidth,
   cardMaxWidth,
   mediaHeight,
   mediaUrl,
@@ -30,7 +32,11 @@ export default function MediaCard({
 
   return (
     <Card
-      sx={{ maxWidth: cardMaxWidth, cursor: url ? 'pointer' : 'default' }}
+      sx={{
+        maxWidth: cardMaxWidth,
+        minWidth: cardMinWidth,
+        cursor: url ? "pointer" : "default",
+      }}
       onClick={() => !!url && navigate(url)}
     >
       <CardMedia
@@ -56,9 +62,10 @@ export default function MediaCard({
 
 MediaCard.defaultProps = {
   cardMaxWidth: 345,
-  mediaHeight: '140',
-  mediaAlt: 'photo',
-  description: '',
+  cardMinWidth: 200,
+  mediaHeight: "140",
+  mediaAlt: "photo",
+  description: "",
   actions: null,
   url: undefined,
 };

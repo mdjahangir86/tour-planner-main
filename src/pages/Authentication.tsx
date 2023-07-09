@@ -1,13 +1,13 @@
-import { db } from '@config/firebase';
-import { yupResolver } from '@hookform/resolvers/yup';
+import { db } from "@config/firebase";
+import { yupResolver } from "@hookform/resolvers/yup";
 import {
   useAuth,
   useCreateUserWithEmail,
   useSignInUserWithEmail,
   useSignInWithGoogleAccount,
-} from '@hooks/useAuth';
-import { useAppDispatch, useAppSelector } from '@hooks/useRedux';
-import GoogleIcon from '@mui/icons-material/Google';
+} from "@hooks/useAuth";
+import { useAppDispatch, useAppSelector } from "@hooks/useRedux";
+import GoogleIcon from "@mui/icons-material/Google";
 import {
   Box,
   Button,
@@ -16,21 +16,25 @@ import {
   Paper,
   TextField,
   Typography,
-} from '@mui/material';
-import { setUserInfo } from '@store/user/authSlice';
-import { addDoc, collection, getDocs, query, where } from 'firebase/firestore';
-import { useEffect, useState } from 'react';
-import { Controller, useForm } from 'react-hook-form';
-import { useNavigate } from 'react-router-dom';
-import * as yup from 'yup';
+} from "@mui/material";
+import { setUserInfo } from "@store/user/authSlice";
+import { addDoc, collection, getDocs, query, where } from "firebase/firestore";
+import { useEffect, useState } from "react";
+import { Controller, useForm } from "react-hook-form";
+import { useNavigate } from "react-router-dom";
+import * as yup from "yup";
 
 interface FormValues {
+  photoURL: string;
+  displayName: string;
   email: string;
   password: string;
 }
 
 const schema = yup.object().shape({
-  email: yup.string().required().email('enter a valid email').trim(),
+  photoURL: yup.string().trim(),
+  displayName: yup.string().trim(),
+  email: yup.string().required().email("enter a valid email").trim(),
   password: yup.string().min(6).required(),
 });
 
@@ -39,7 +43,7 @@ function Authentication() {
   const dispatch = useAppDispatch();
   const [isLoginLayout, setIsLoginLayout] = useState(true);
   const [isLoading, setIsLoading] = useState(false);
-  const [errorMsg, setErrorMsg] = useState('');
+  const [errorMsg, setErrorMsg] = useState("");
   const {
     createUserWithEmailAndPassword,
     loading: signupLoading,
@@ -58,7 +62,7 @@ function Authentication() {
   const { user } = useAuth();
 
   const { userInfo } = useAppSelector((state) => state.auth);
-  const collectionRef = collection(db, 'users');
+  const collectionRef = collection(db, "users");
 
   const isError = signupError || signinError || signinGoogleError || errorMsg;
   const errorMessage =
@@ -76,17 +80,23 @@ function Authentication() {
   } = useForm<FormValues>({
     resolver: yupResolver(schema),
   });
-
-  useEffect(() => {
+  const saveData = (
+    u = {
+      displayName: "",
+      photoURL: "",
+    }
+  ) => {
     if (user && !userInfo) {
       const userData = {
         uid: user.uid,
         email: user.email,
-        role: 'user',
+        displayName: localStorage.getItem("displayName"),
+        photoURL: localStorage.getItem("photoURL"),
+        role: "user",
       };
       setIsLoading(true);
 
-      const q = query(collection(db, 'users'), where('uid', '==', user.uid));
+      const q = query(collection(db, "users"), where("uid", "==", user.uid));
 
       getDocs(q)
         .then((querySnapshot) => {
@@ -95,7 +105,7 @@ function Authentication() {
               .then(() => {
                 dispatch(setUserInfo({ userInfo: userData }));
                 setIsLoading(false);
-                navigate('/dashboard');
+                navigate("/dashboard");
               })
               .catch((error) => setErrorMsg(error.message))
               .finally(() => setIsLoading(false));
@@ -110,21 +120,22 @@ function Authentication() {
 
           dispatch(setUserInfo({ userInfo: previousUserInfo }));
           setIsLoading(false);
-          navigate('/dashboard');
+          navigate("/dashboard");
         })
         .catch((error) => {
           setErrorMsg(error.message);
           setIsLoading(false);
         });
     }
-  }, [user]);
+  };
+  useEffect(() => saveData(), [user]);
 
   return (
     <Box
       sx={{
         minWidth: 300,
         maxWidth: 600,
-        margin: '0 auto',
+        margin: "100px auto",
       }}
     >
       <Paper elevation={2}>
@@ -136,7 +147,7 @@ function Authentication() {
           paddingY={5}
         >
           <Typography variant="h3">
-            {isLoginLayout ? 'Login' : 'Sign up'}
+            {isLoginLayout ? "Login" : "Sign up"}
           </Typography>
 
           <Box>
@@ -149,16 +160,17 @@ function Authentication() {
             </Button>
           </Box>
 
-          <Divider sx={{ width: '50%', margin: '0 auto' }}>Or</Divider>
+          <Divider sx={{ width: "50%", margin: "0 auto" }}>Or</Divider>
 
           <Box
             component="form"
             onSubmit={handleSubmit(async (values: FormValues) => {
-              const { email, password } = values;
-
+              const { email, password, displayName, photoURL } = values;
               if (isLoginLayout) {
                 await signInWithEmailAndPassword(email, password);
               } else {
+                localStorage.setItem("displayName", displayName);
+                localStorage.setItem("photoURL", photoURL);
                 await createUserWithEmailAndPassword(email, password);
               }
             })}
@@ -170,6 +182,35 @@ function Authentication() {
             margin="0 auto"
             padding={2}
           >
+            {!isLoginLayout && (
+              <Controller
+                name="displayName"
+                control={control}
+                render={({ field }) => (
+                  <TextField
+                    {...field}
+                    label="displayName"
+                    error={!!errors?.displayName}
+                    helperText={errors?.displayName?.message}
+                  />
+                )}
+              />
+            )}
+
+            {!isLoginLayout && (
+              <Controller
+                name="photoURL"
+                control={control}
+                render={({ field }) => (
+                  <TextField
+                    {...field}
+                    label="photoURL"
+                    error={!!errors?.photoURL}
+                    helperText={errors?.photoURL?.message}
+                  />
+                )}
+              />
+            )}
             <Controller
               name="email"
               control={control}
@@ -210,7 +251,7 @@ function Authentication() {
                 </Button>
               ) : (
                 <Button variant="outlined" type="submit">
-                  {isLoginLayout ? 'Log in' : 'Sign up'}
+                  {isLoginLayout ? "Log in" : "Sign up"}
                 </Button>
               )}
             </Box>
@@ -220,15 +261,15 @@ function Authentication() {
             <Typography>
               {isLoginLayout
                 ? "Don't have an account?"
-                : 'Already have an account?'}
+                : "Already have an account?"}
 
               <Box
                 component="span"
                 color="secondary.main"
-                sx={{ cursor: 'pointer', marginLeft: 1 }}
+                sx={{ cursor: "pointer", marginLeft: 1 }}
                 onClick={() => setIsLoginLayout((prevState) => !prevState)}
               >
-                {isLoginLayout ? 'Sign up' : 'Login'}
+                {isLoginLayout ? "Sign up" : "Login"}
               </Box>
             </Typography>
           </Box>

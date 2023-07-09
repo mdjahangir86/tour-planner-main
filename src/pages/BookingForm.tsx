@@ -1,6 +1,6 @@
-import { db } from '@config/firebase';
-import { yupResolver } from '@hookform/resolvers/yup';
-import { useAppSelector } from '@hooks/useRedux';
+import { db } from "@config/firebase";
+import { yupResolver } from "@hookform/resolvers/yup";
+import { useAppSelector } from "@hooks/useRedux";
 import {
   Box,
   Button,
@@ -9,13 +9,13 @@ import {
   Paper,
   TextField,
   Typography,
-} from '@mui/material';
-import { addDoc, collection, doc, getDoc } from 'firebase/firestore';
-import { useEffect, useState } from 'react';
-import { Controller, useForm } from 'react-hook-form';
-import { useNavigate, useParams, useSearchParams } from 'react-router-dom';
-import { ResponseType } from 'types';
-import * as yup from 'yup';
+} from "@mui/material";
+import { addDoc, collection, doc, getDoc } from "firebase/firestore";
+import { useEffect, useState } from "react";
+import { Controller, useForm } from "react-hook-form";
+import { useNavigate, useParams, useSearchParams } from "react-router-dom";
+import { ResponseType } from "types";
+import * as yup from "yup";
 
 interface FormValues {
   name: string;
@@ -26,14 +26,14 @@ interface FormValues {
 }
 
 const schema = yup.object({
-  name: yup.string().required('name is required'),
-  email: yup.string().email('need valid email').required('email is required'),
+  name: yup.string().required("name is required"),
+  email: yup.string().email("need valid email").required("email is required"),
   description: yup.string().notRequired(),
   phoneNumber: yup
     .string()
-    .min(11, 'enter a valid phone number')
-    .required('phone number is required'),
-  date: yup.date().required('date is required'),
+    .min(11, "enter a valid phone number")
+    .required("phone number is required"),
+  date: yup.date().required("date is required"),
 });
 
 function BookingForm() {
@@ -58,7 +58,7 @@ function BookingForm() {
     setLoading(true);
 
     (async () => {
-      const docRef = doc(db, searchParams.get('type') || '', itemId || '');
+      const docRef = doc(db, searchParams.get("type") || "", itemId || "");
       const docSnap = await getDoc(docRef);
 
       if (docSnap.exists()) {
@@ -79,7 +79,7 @@ function BookingForm() {
   }
 
   return (
-    <Box component="section" maxWidth={1920}>
+    <Box component="section" maxWidth={1920} marginY={10}>
       <Box marginY={5}>
         <Typography variant="h4" fontWeight={900} textAlign="center">
           Place Booking Request
@@ -88,28 +88,36 @@ function BookingForm() {
 
       <Paper
         sx={{
-          maxWidth: 700,
-          margin: 'auto',
+          maxWidth: 500,
+          margin: "auto",
         }}
       >
         <Box
           sx={{
-            display: 'flex',
-            justifyContent: 'space-between',
-            flexWrap: 'wrap',
-            gap: 3,
+            display: "flex",
+            justifyContent: "space-between",
+            flexWrap: "wrap",
             padding: 3,
-            marginBottom: 5,
+            marginBottom: 2,
           }}
         >
           <Typography variant="h6" fontWeight={600}>
             {bookingInfo?.title}
           </Typography>
-          <Box>
-            <Chip
-              label={`${bookingInfo?.cost} / ${bookingInfo?.duration}`}
-              color="info"
-            />
+          <Box
+            sx={{
+              display: "flex",
+              justifyContent: "space-between",
+              flexWrap: "wrap",
+              gap: 1,
+            }}
+          >
+            <Box>
+              <Chip label={`৳ ${bookingInfo?.cost}`} color="info" />
+            </Box>
+            <Box>
+              <Chip label={`${bookingInfo?.duration} days`} color="info" />
+            </Box>
           </Box>
         </Box>
       </Paper>
@@ -118,13 +126,13 @@ function BookingForm() {
         autoComplete="off"
         onSubmit={handleSubmit(async (values) => {
           setLoading(true);
-          const collectionRef = collection(db, 'bookings');
+          const collectionRef = collection(db, "bookings");
 
           const data = {
             ...values,
             userId: userInfo.uid,
             itemId,
-            status: 'pending',
+            status: "pending",
             type: bookingInfo?.type,
             itemInfo: bookingInfo,
           };
@@ -134,7 +142,7 @@ function BookingForm() {
 
             if (response.id) {
               setLoading(false);
-              navigate('/dashboard/my-bookings');
+              navigate("/dashboard/my-bookings");
             }
           } catch (error) {
             setLoading(false);
@@ -143,12 +151,12 @@ function BookingForm() {
       >
         <Box
           sx={{
-            display: 'flex',
-            flexDirection: 'column',
+            display: "flex",
+            flexDirection: "column",
             gap: 3,
-            width: '100%',
+            width: "100%",
             maxWidth: 500,
-            margin: 'auto',
+            margin: "auto",
           }}
         >
           <Controller

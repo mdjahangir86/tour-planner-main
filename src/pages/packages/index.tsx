@@ -1,6 +1,6 @@
-import SearchInput from '@components/filters/SearchInput';
-import MediaCard from '@components/media-card';
-import { db } from '@config/firebase';
+import SearchInput from "@components/filters/SearchInput";
+import MediaCard from "@components/media-card";
+import { db } from "@config/firebase";
 import {
   Box,
   Button,
@@ -8,11 +8,11 @@ import {
   Container,
   Paper,
   Typography,
-} from '@mui/material';
-import { localNumberFormat } from '@utils/formatters';
-import { collection, getDocs } from 'firebase/firestore';
-import { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+} from "@mui/material";
+import { localNumberFormat } from "@utils/formatters";
+import { collection, getDocs } from "firebase/firestore";
+import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 export interface Response {
   id: string;
@@ -32,7 +32,7 @@ function Packages() {
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
 
-  const collectionRef = collection(db, 'packages');
+  const collectionRef = collection(db, "packages");
 
   const fetchPackages = async () => {
     setIsLoading(true);
@@ -55,7 +55,7 @@ function Packages() {
   }, []);
 
   return (
-    <Box>
+    <Box marginY={8}>
       <Typography variant="h4" fontWeight={700} textAlign="center">
         Packages
       </Typography>
@@ -63,20 +63,20 @@ function Packages() {
       <Box textAlign="center" my={3}>
         <Button
           variant="contained"
-          onClick={() => navigate('/packages/custom')}
+          onClick={() => navigate("/packages/custom")}
         >
-          Create Package
+          Create Custom Package
         </Button>
       </Box>
 
       <Container>
         <Box
           width="100%"
-          sx={{ display: 'grid', placeItems: 'end', margin: '2rem 0' }}
+          sx={{ display: "grid", placeItems: "center", margin: "2rem 0" }}
         >
           <Box
             sx={{
-              width: { xs: '100%', md: '40%' },
+              width: { xs: "100%", md: "40%" },
             }}
           >
             <SearchInput />
@@ -104,23 +104,23 @@ function Packages() {
                 title={title}
                 mediaUrl={img}
                 mediaAlt={`img-${id}`}
-                mediaHeight="320"
+                mediaHeight="250"
                 actions={
                   <Box
                     display="flex"
-                    justifyContent="center"
-                    gap={1}
+                    justifyContent="space-between"
+                    gap={0.5}
                     width="100%"
                     paddingBottom={2}
                   >
-                    <Paper sx={{ backgroundColor: 'primary.light' }}>
-                      <Typography color="white" paddingX={1} variant="h6">
-                        {localNumberFormat({ number: cost })}
-                      </Typography>
-                    </Paper>
                     <Paper>
                       <Typography paddingX={1} variant="h6">
-                        {duration}
+                        {duration} days
+                      </Typography>
+                    </Paper>
+                    <Paper sx={{ backgroundColor: "primary.light" }}>
+                      <Typography color="white" paddingX={1} variant="h6">
+                        {localNumberFormat({ number: cost })}
                       </Typography>
                     </Paper>
                   </Box>

@@ -1,7 +1,7 @@
-import { db } from '@config/firebase';
-import { yupResolver } from '@hookform/resolvers/yup';
-import AddCircleIcon from '@mui/icons-material/AddCircle';
-import DeleteIcon from '@mui/icons-material/Delete';
+import { db } from "@config/firebase";
+import { yupResolver } from "@hookform/resolvers/yup";
+import AddCircleIcon from "@mui/icons-material/AddCircle";
+import DeleteIcon from "@mui/icons-material/Delete";
 import {
   Box,
   Button,
@@ -9,15 +9,15 @@ import {
   IconButton,
   TextField,
   Typography,
-} from '@mui/material';
-import { addDoc, collection, doc, getDoc, updateDoc } from 'firebase/firestore';
-import { useEffect, useState } from 'react';
-import { Controller, useFieldArray, useForm } from 'react-hook-form';
-import { useNavigate, useParams } from 'react-router-dom';
-import * as yup from 'yup';
+} from "@mui/material";
+import { addDoc, collection, doc, getDoc, updateDoc } from "firebase/firestore";
+import { useEffect, useState } from "react";
+import { Controller, useFieldArray, useForm } from "react-hook-form";
+import { useNavigate, useParams } from "react-router-dom";
+import * as yup from "yup";
 
 interface ManageGuidesFormProps {
-  mode: 'create' | 'edit';
+  mode: "create" | "edit";
 }
 
 type ImageListItem = {
@@ -39,34 +39,34 @@ const urlRegEx =
   /^((ftp|http|https):\/\/)?(www.)?(?!.*(ftp|http|https|www.))[a-zA-Z0-9_-]+(\.[a-zA-Z]+)+((\/)[\w#]+)*(\/\w+\?[a-zA-Z0-9_]+=\w+(&[a-zA-Z0-9_]+=\w+)*)?$/gm;
 
 const schema = yup.object().shape({
-  title: yup.string().required('title is required'),
-  subTitle: yup.string().required('sub title is required'),
-  description: yup.string().required('description is required'),
-  cost: yup.number().required('cost is required'),
-  duration: yup.string().required('duration is required'),
-  location: yup.string().required('location is required'),
+  title: yup.string().required("title is required"),
+  subTitle: yup.string().required("sub title is required"),
+  description: yup.string().required("description is required"),
+  cost: yup.number().required("cost is required"),
+  duration: yup.string().required("duration is required"),
+  location: yup.string().required("location is required"),
   img: yup
     .string()
-    .matches(urlRegEx, 'URL is not valid')
-    .required('featured image is required'),
+    .matches(urlRegEx, "URL is not valid")
+    .required("featured image is required"),
   images: yup.array(
     yup.object({
       url: yup
         .string()
-        .matches(urlRegEx, 'URL is not valid')
-        .required('url is required'),
+        .matches(urlRegEx, "URL is not valid")
+        .required("url is required"),
     })
   ),
 });
 
-const PLACEHOLDER_IMAGE_URL = 'https://picsum.photos/200';
+const PLACEHOLDER_IMAGE_URL = "https://picsum.photos/200";
 
 function ManageGuidesForm({ mode }: ManageGuidesFormProps) {
   const { itemId } = useParams();
   const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(false);
 
-  const collectionRef = collection(db, 'guides');
+  const collectionRef = collection(db, "guides");
 
   const {
     handleSubmit,
@@ -76,12 +76,12 @@ function ManageGuidesForm({ mode }: ManageGuidesFormProps) {
     formState: { errors },
   } = useForm<FormValues>({
     defaultValues: {
-      title: '',
-      subTitle: '',
-      description: '',
+      title: "",
+      subTitle: "",
+      description: "",
       cost: 0,
-      duration: '',
-      location: '',
+      duration: "",
+      location: "",
       img: PLACEHOLDER_IMAGE_URL,
       images: [{ url: PLACEHOLDER_IMAGE_URL }],
     },
@@ -90,17 +90,17 @@ function ManageGuidesForm({ mode }: ManageGuidesFormProps) {
 
   const { fields, append, remove } = useFieldArray({
     control,
-    name: 'images',
+    name: "images",
   });
 
-  const featuredImage = watch('img');
-  const imageList = watch('images');
+  const featuredImage = watch("img");
+  const imageList = watch("images");
 
   useEffect(() => {
     (async () => {
-      if (mode === 'edit' && itemId) {
+      if (mode === "edit" && itemId) {
         setIsLoading(true);
-        const docRef = doc(db, 'guides', itemId);
+        const docRef = doc(db, "guides", itemId);
         const docSnap = await getDoc(docRef);
 
         if (docSnap.exists()) {
@@ -125,17 +125,17 @@ function ManageGuidesForm({ mode }: ManageGuidesFormProps) {
         textTransform="uppercase"
         fontWeight={900}
       >
-        {mode === 'create' ? 'Add New Guide' : 'Edit Guide'}
+        {mode === "create" ? "Add New Guide" : "Edit Guide"}
       </Typography>
 
       <form
         autoComplete="off"
         style={{
-          display: 'flex',
-          flexDirection: 'column',
+          display: "flex",
+          flexDirection: "column",
           gap: 30,
-          margin: 'auto',
-          width: '100%',
+          margin: "auto",
+          width: "100%",
           maxWidth: 700,
           marginTop: 30,
         }}
@@ -144,10 +144,10 @@ function ManageGuidesForm({ mode }: ManageGuidesFormProps) {
           const updatedImages = values.images.map(({ url }) => url);
           const timeStamp = new Date();
 
-          if (mode === 'create') {
+          if (mode === "create") {
             addDoc(collectionRef, {
               ...values,
-              type: 'guide',
+              type: "guide",
               images: updatedImages,
               createdAt: timeStamp,
               updatedAt: timeStamp,
@@ -156,8 +156,8 @@ function ManageGuidesForm({ mode }: ManageGuidesFormProps) {
                 navigate(`/dashboard/manage-guides/edit/${res.id}`);
               })
               .finally(() => setIsLoading(false));
-          } else if (mode === 'edit' && itemId) {
-            const docRef = doc(db, 'guides', itemId);
+          } else if (mode === "edit" && itemId) {
+            const docRef = doc(db, "guides", itemId);
 
             updateDoc(docRef, {
               ...values,
@@ -256,9 +256,9 @@ function ManageGuidesForm({ mode }: ManageGuidesFormProps) {
         {!!featuredImage && (
           <Box
             sx={{
-              margin: 'auto',
+              margin: "auto",
               borderRadius: 3,
-              overflow: 'hidden',
+              overflow: "hidden",
               height: 200,
               width: 200,
             }}
@@ -266,7 +266,7 @@ function ManageGuidesForm({ mode }: ManageGuidesFormProps) {
             <img
               src={
                 featuredImage ||
-                'https://dummyimage.com/200x200/000/fff.jpg&text=placeholder'
+                "https://dummyimage.com/200x200/000/fff.jpg&text=placeholder"
               }
               alt="featuredImage"
             />
@@ -289,9 +289,9 @@ function ManageGuidesForm({ mode }: ManageGuidesFormProps) {
 
         <Box
           sx={{
-            display: 'flex',
-            flexWrap: 'wrap',
-            justifyContent: 'space-between',
+            display: "flex",
+            flexWrap: "wrap",
+            justifyContent: "space-between",
             gap: 3,
           }}
         >
@@ -301,7 +301,7 @@ function ManageGuidesForm({ mode }: ManageGuidesFormProps) {
                 key={index}
                 sx={{
                   borderRadius: 3,
-                  overflow: 'hidden',
+                  overflow: "hidden",
                   height: 200,
                   width: 200,
                 }}
@@ -309,7 +309,7 @@ function ManageGuidesForm({ mode }: ManageGuidesFormProps) {
                 <img
                   src={
                     image.url ||
-                    'https://dummyimage.com/600x300/000/fff.jpg&text=placeholder'
+                    "https://dummyimage.com/600x300/000/fff.jpg&text=placeholder"
                   }
                   alt={`img-${index}`}
                 />
@@ -320,7 +320,7 @@ function ManageGuidesForm({ mode }: ManageGuidesFormProps) {
 
         {fields.map((fld, index) => {
           return (
-            <Box key={fld.id} sx={{ display: 'flex' }}>
+            <Box key={fld.id} sx={{ display: "flex" }}>
               <Controller
                 name={`images.${index}.url`}
                 control={control}
@@ -336,14 +336,14 @@ function ManageGuidesForm({ mode }: ManageGuidesFormProps) {
               />
               <Box
                 sx={{
-                  display: 'flex',
+                  display: "flex",
                   width: 75,
                 }}
               >
                 <IconButton
                   disabled={imageList.length === 3}
                   onClick={() => {
-                    append({ url: 'https://picsum.photos/200' });
+                    append({ url: "https://picsum.photos/200" });
                   }}
                 >
                   <AddCircleIcon />
@@ -370,7 +370,7 @@ function ManageGuidesForm({ mode }: ManageGuidesFormProps) {
             </Button>
           ) : (
             <Button type="submit" variant="contained" size="large">
-              {mode === 'create' ? 'Add' : 'Update'}
+              {mode === "create" ? "Add" : "Update"}
             </Button>
           )}
         </Box>

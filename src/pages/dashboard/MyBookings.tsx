@@ -1,10 +1,10 @@
-import { db } from '@config/firebase';
-import { useAppSelector } from '@hooks/useRedux';
-import { Box, Chip, CircularProgress, Paper, Typography } from '@mui/material';
-import { collection, getDocs, query, where } from 'firebase/firestore';
-import { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { ResponseTypeBooking } from 'types';
+import { db } from "@config/firebase";
+import { useAppSelector } from "@hooks/useRedux";
+import { Box, Chip, CircularProgress, Paper, Typography } from "@mui/material";
+import { collection, getDocs, query, where } from "firebase/firestore";
+import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { ResponseTypeBooking } from "types";
 
 function MyBookings() {
   const navigate = useNavigate();
@@ -18,8 +18,8 @@ function MyBookings() {
     setLoading(true);
 
     const q = query(
-      collection(db, 'bookings'),
-      where('userId', '==', userInfo.uid)
+      collection(db, "bookings"),
+      where("userId", "==", userInfo.uid)
     );
 
     getDocs(q)
@@ -55,8 +55,8 @@ function MyBookings() {
   return (
     <Box
       sx={{
-        display: 'flex',
-        flexDirection: 'column',
+        display: "flex",
+        flexDirection: "column",
         gap: 3,
       }}
     >
@@ -76,15 +76,15 @@ function MyBookings() {
             <Box
               padding={3}
               sx={{
-                display: 'flex',
-                justifyContent: 'space-between',
+                display: "flex",
+                justifyContent: "space-between",
                 gap: 3,
               }}
             >
               <Box
                 sx={{
-                  display: 'flex',
-                  flexDirection: 'column',
+                  display: "flex",
+                  flexDirection: "column",
                   gap: 1,
                 }}
               >
@@ -92,7 +92,7 @@ function MyBookings() {
                   variant="h6"
                   fontWeight={600}
                   sx={{
-                    cursor: 'pointer',
+                    cursor: "pointer",
                   }}
                 >
                   <Box
@@ -100,7 +100,7 @@ function MyBookings() {
                     role="button"
                     onClick={() =>
                       navigate(
-                        `/${booking.type === 'guide' ? 'guides' : 'packages'}/${
+                        `/${booking.type === "guide" ? "guides" : "packages"}/${
                           booking.itemId
                         }`
                       )
@@ -118,8 +118,8 @@ function MyBookings() {
 
               <Box
                 sx={{
-                  display: 'flex',
-                  flexWrap: 'wrap',
+                  display: "flex",
+                  flexWrap: "wrap",
                   gap: 1,
                 }}
               >

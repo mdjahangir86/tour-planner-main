@@ -1,18 +1,18 @@
-import { db } from '@config/firebase';
-import { yupResolver } from '@hookform/resolvers/yup';
-import { useAppSelector } from '@hooks/useRedux';
+import { db } from "@config/firebase";
+import { yupResolver } from "@hookform/resolvers/yup";
+import { useAppSelector } from "@hooks/useRedux";
 import {
   Box,
   Button,
   CircularProgress,
   TextField,
   Typography,
-} from '@mui/material';
-import { addDoc, collection } from 'firebase/firestore';
-import { useState } from 'react';
-import { Controller, useForm } from 'react-hook-form';
-import { useNavigate } from 'react-router-dom';
-import * as yup from 'yup';
+} from "@mui/material";
+import { addDoc, collection } from "firebase/firestore";
+import { useState } from "react";
+import { Controller, useForm } from "react-hook-form";
+import { useNavigate } from "react-router-dom";
+import * as yup from "yup";
 
 type FormValues = {
   name: string;
@@ -25,13 +25,13 @@ type FormValues = {
 };
 
 const schema = yup.object().shape({
-  name: yup.string().required('name is required'),
-  phone: yup.string().required('phone is required'),
-  title: yup.string().required('title is required'),
-  description: yup.string().required('description is required'),
-  budget: yup.number().required('budget is required'),
-  duration: yup.string().required('duration is required'),
-  location: yup.string().required('location is required'),
+  name: yup.string().required("name is required"),
+  phone: yup.string().required("phone is required"),
+  title: yup.string().required("title is required"),
+  description: yup.string().required("description is required"),
+  budget: yup.number().required("budget is required"),
+  duration: yup.string().required("duration is required"),
+  location: yup.string().required("location is required"),
 });
 
 function CustomPackage() {
@@ -40,7 +40,7 @@ function CustomPackage() {
 
   const { userInfo } = useAppSelector((state) => state.auth);
 
-  const collectionRef = collection(db, 'custom-bookings');
+  const collectionRef = collection(db, "custom-bookings");
 
   const {
     handleSubmit,
@@ -48,19 +48,19 @@ function CustomPackage() {
     formState: { errors },
   } = useForm<FormValues>({
     defaultValues: {
-      name: '',
-      phone: '',
-      title: '',
-      description: '',
+      name: "",
+      phone: "",
+      title: "",
+      description: "",
       budget: 0,
-      duration: '',
-      location: '',
+      duration: "",
+      location: "",
     },
     resolver: yupResolver(schema),
   });
 
   return (
-    <Box>
+    <Box marginY={10}>
       <Typography
         variant="h4"
         textAlign="center"
@@ -73,11 +73,11 @@ function CustomPackage() {
       <form
         autoComplete="off"
         style={{
-          display: 'flex',
-          flexDirection: 'column',
+          display: "flex",
+          flexDirection: "column",
           gap: 30,
-          margin: 'auto',
-          width: '100%',
+          margin: "auto",
+          width: "100%",
           maxWidth: 700,
           marginTop: 30,
         }}
@@ -88,14 +88,14 @@ function CustomPackage() {
 
           addDoc(collectionRef, {
             ...values,
-            status: 'pending',
+            status: "pending",
             userInfo,
             userId: userInfo.uid,
             createdAt: timeStamp,
             updatedAt: timeStamp,
           })
             .then(() => {
-              navigate('/dashboard/my-custom-bookings');
+              navigate("/dashboard/my-custom-bookings");
             })
             .finally(() => setIsLoading(false));
         })}
@@ -219,9 +219,9 @@ function CustomPackage() {
               type="button"
               variant="contained"
               size="large"
-              onClick={() => navigate('/login')}
+              onClick={() => navigate("/login")}
             >
-              Login
+              Submit Package
             </Button>
           </Box>
         )}

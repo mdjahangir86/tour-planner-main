@@ -1,9 +1,9 @@
-import { db } from '@config/firebase';
-import { useAppSelector } from '@hooks/useRedux';
-import { Box, Chip, CircularProgress, Paper, Typography } from '@mui/material';
-import { collection, getDocs, query, where } from 'firebase/firestore';
-import { useEffect, useState } from 'react';
-import { ResponseTypeCustomBooking } from 'types';
+import { db } from "@config/firebase";
+import { useAppSelector } from "@hooks/useRedux";
+import { Box, Chip, CircularProgress, Paper, Typography } from "@mui/material";
+import { collection, getDocs, query, where } from "firebase/firestore";
+import { useEffect, useState } from "react";
+import { ResponseTypeCustomBooking } from "types";
 
 function MyCustomBookings() {
   const [loading, setLoading] = useState(false);
@@ -15,8 +15,8 @@ function MyCustomBookings() {
     setLoading(true);
 
     const q = query(
-      collection(db, 'custom-bookings'),
-      where('userId', '==', userInfo.uid)
+      collection(db, "custom-bookings"),
+      where("userId", "==", userInfo.uid)
     );
 
     getDocs(q)
@@ -53,8 +53,8 @@ function MyCustomBookings() {
   return (
     <Box
       sx={{
-        display: 'flex',
-        flexDirection: 'column',
+        display: "flex",
+        flexDirection: "column",
         gap: 3,
       }}
     >
@@ -74,15 +74,15 @@ function MyCustomBookings() {
             <Box
               padding={3}
               sx={{
-                display: 'flex',
-                justifyContent: 'space-between',
+                display: "flex",
+                justifyContent: "space-between",
                 gap: 3,
               }}
             >
               <Box
                 sx={{
-                  display: 'flex',
-                  flexDirection: 'column',
+                  display: "flex",
+                  flexDirection: "column",
                   gap: 1,
                 }}
               >
@@ -90,7 +90,7 @@ function MyCustomBookings() {
                   variant="h6"
                   fontWeight={600}
                   sx={{
-                    cursor: 'pointer',
+                    cursor: "pointer",
                   }}
                 >
                   <Box component="span" role="button">
@@ -108,17 +108,17 @@ function MyCustomBookings() {
 
               <Box
                 sx={{
-                  display: 'flex',
-                  flexWrap: 'wrap',
+                  display: "flex",
+                  flexWrap: "wrap",
                   gap: 1,
                 }}
               >
                 <Chip
-                  color={booking.status === 'canceled' ? 'error' : 'success'}
+                  color={booking.status === "canceled" ? "error" : "success"}
                   label={booking.status}
                 />
-                <Chip color="secondary" label={`${booking.budget}tk`} />
-                <Chip color="info" label={booking.duration} />
+                <Chip color="secondary" label={`৳ ${booking.budget}`} />
+                <Chip color="info" label={`${booking.duration} days`} />
                 <Chip color="default" label={date} />
               </Box>
             </Box>

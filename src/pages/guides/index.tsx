@@ -1,16 +1,16 @@
-import SearchInput from '@components/filters/SearchInput';
-import MediaCard from '@components/media-card';
-import { db } from '@config/firebase';
+import SearchInput from "@components/filters/SearchInput";
+import MediaCard from "@components/media-card";
+import { db } from "@config/firebase";
 import {
   Box,
   CircularProgress,
   Container,
   Paper,
   Typography,
-} from '@mui/material';
-import { localNumberFormat } from '@utils/formatters';
-import { collection, getDocs } from 'firebase/firestore';
-import { useEffect, useState } from 'react';
+} from "@mui/material";
+import { localNumberFormat } from "@utils/formatters";
+import { collection, getDocs } from "firebase/firestore";
+import { useEffect, useState } from "react";
 
 export interface Response {
   id: string;
@@ -29,7 +29,7 @@ function Guides() {
   const [guides, setGuides] = useState<Response[]>([]);
   const [isLoading, setIsLoading] = useState(false);
 
-  const collectionRef = collection(db, 'guides');
+  const collectionRef = collection(db, "guides");
 
   const fetchGuides = async () => {
     setIsLoading(true);
@@ -52,18 +52,18 @@ function Guides() {
   }, []);
 
   return (
-    <Box>
+    <Box marginY={10}>
       <Typography variant="h4" fontWeight={700} textAlign="center">
         Guides
       </Typography>
       <Container>
         <Box
           width="100%"
-          sx={{ display: 'grid', placeItems: 'end', margin: '2rem 0' }}
+          sx={{ display: "grid", placeItems: "center", margin: "2rem 0" }}
         >
           <Box
             sx={{
-              width: { xs: '100%', md: '40%' },
+              width: { xs: "100%", md: "40%" },
             }}
           >
             <SearchInput />
@@ -94,19 +94,19 @@ function Guides() {
               actions={
                 <Box
                   display="flex"
-                  justifyContent="center"
+                  justifyContent="space-between"
                   gap={1}
                   width="100%"
                   paddingBottom={2}
                 >
-                  <Paper sx={{ backgroundColor: 'primary.light' }}>
-                    <Typography color="white" paddingX={1} variant="h6">
-                      {localNumberFormat({ number: cost })}
-                    </Typography>
-                  </Paper>
                   <Paper>
                     <Typography paddingX={1} variant="h6">
-                      {duration}
+                      {duration} Days
+                    </Typography>
+                  </Paper>
+                  <Paper sx={{ backgroundColor: "primary.light" }}>
+                    <Typography color="white" paddingX={1} variant="h6">
+                      {localNumberFormat({ number: cost })}
                     </Typography>
                   </Paper>
                 </Box>

@@ -1,5 +1,5 @@
 /* eslint-disable no-alert */
-import { db } from '@config/firebase';
+import { db } from "@config/firebase";
 import {
   Box,
   Button,
@@ -7,10 +7,10 @@ import {
   CircularProgress,
   Paper,
   Typography,
-} from '@mui/material';
-import { collection, doc, getDocs, query, updateDoc } from 'firebase/firestore';
-import { useEffect, useState } from 'react';
-import { ResponseTypeCustomBooking } from 'types';
+} from "@mui/material";
+import { collection, doc, getDocs, query, updateDoc } from "firebase/firestore";
+import { useEffect, useState } from "react";
+import { ResponseTypeCustomBooking } from "types";
 
 function ManageCustomBookings() {
   const [loading, setLoading] = useState(false);
@@ -19,7 +19,7 @@ function ManageCustomBookings() {
   const fetchBookings = () => {
     setLoading(true);
 
-    const q = query(collection(db, 'custom-bookings'));
+    const q = query(collection(db, "custom-bookings"));
 
     getDocs(q)
       .then((querySnapshot) => {
@@ -44,17 +44,17 @@ function ManageCustomBookings() {
   }, []);
 
   const bookingActionHandler = (
-    action: 'accepted' | 'canceled',
+    action: "accepted" | "canceled",
     id: string
   ) => {
-    const confirmed = window.confirm('Are you sure?');
+    const confirmed = window.confirm("Are you sure?");
 
     if (!confirmed) {
       return null;
     }
     setLoading(true);
 
-    const docRef = doc(db, 'custom-bookings', id);
+    const docRef = doc(db, "custom-bookings", id);
 
     updateDoc(docRef, {
       status: action,
@@ -76,8 +76,8 @@ function ManageCustomBookings() {
   return (
     <Box
       sx={{
-        display: 'flex',
-        flexDirection: 'column',
+        display: "flex",
+        flexDirection: "column",
         gap: 3,
       }}
     >
@@ -97,15 +97,15 @@ function ManageCustomBookings() {
             <Box
               padding={3}
               sx={{
-                display: 'flex',
-                justifyContent: 'space-between',
+                display: "flex",
+                justifyContent: "space-between",
                 gap: 3,
               }}
             >
               <Box
                 sx={{
-                  display: 'flex',
-                  flexDirection: 'column',
+                  display: "flex",
+                  flexDirection: "column",
                   gap: 1,
                 }}
               >
@@ -113,7 +113,7 @@ function ManageCustomBookings() {
                   variant="h6"
                   fontWeight={600}
                   sx={{
-                    cursor: 'pointer',
+                    cursor: "pointer",
                   }}
                 >
                   <Box component="span" role="button">
@@ -131,22 +131,22 @@ function ManageCustomBookings() {
 
               <Box
                 sx={{
-                  display: 'flex',
-                  flexDirection: 'column',
-                  justifyContent: 'space-between',
+                  display: "flex",
+                  flexDirection: "column",
+                  justifyContent: "space-between",
                   gap: 1,
                 }}
               >
                 <Box
                   sx={{
-                    display: 'flex',
+                    display: "flex",
 
-                    flexWrap: 'wrap',
+                    flexWrap: "wrap",
                     gap: 1,
                   }}
                 >
                   <Chip
-                    color={booking.status === 'canceled' ? 'error' : 'success'}
+                    color={booking.status === "canceled" ? "error" : "success"}
                     label={booking.status}
                   />
                   <Chip color="secondary" label={`${booking.budget}tk`} />
@@ -154,19 +154,19 @@ function ManageCustomBookings() {
                   <Chip color="default" label={date} />
                 </Box>
 
-                {booking.status === 'pending' && (
+                {booking.status === "pending" && (
                   <Box
                     sx={{
-                      display: 'flex',
-                      justifyContent: 'center',
-                      alignItems: 'center',
+                      display: "flex",
+                      justifyContent: "center",
+                      alignItems: "center",
                       gap: 1,
                     }}
                   >
                     <Button
                       variant="contained"
                       onClick={() =>
-                        bookingActionHandler('accepted', booking.id!)
+                        bookingActionHandler("accepted", booking.id!)
                       }
                     >
                       Accept
@@ -174,7 +174,7 @@ function ManageCustomBookings() {
                     <Button
                       variant="outlined"
                       onClick={() =>
-                        bookingActionHandler('canceled', booking.id!)
+                        bookingActionHandler("canceled", booking.id!)
                       }
                     >
                       Cancel
