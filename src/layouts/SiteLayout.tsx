@@ -66,7 +66,7 @@ export default function SiteLayout() {
   const drawer = (
     <Box onClick={handleDrawerToggle} sx={{ textAlign: "center" }}>
       <Typography variant="h6" sx={{ my: 2 }}>
-        <img src="/WanderWorldTourism.png" height="10px" alt="" />
+        <img src="/mainlogo.png" height="10px" alt="" />
       </Typography>
 
       <Divider />
@@ -121,7 +121,7 @@ export default function SiteLayout() {
                     },
                   }}
                 >
-                  <img src="/WanderWorldTourism.png" height="40px" alt="" />
+                  <img src="/mainlogo.png" height="40px" alt="" />
                 </Typography>
               </RouterLink>
             </Box>
