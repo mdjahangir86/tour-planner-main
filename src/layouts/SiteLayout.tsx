@@ -65,9 +65,7 @@ export default function SiteLayout() {
 
   const drawer = (
     <Box onClick={handleDrawerToggle} sx={{ textAlign: "center" }}>
-      <Typography variant="h6" sx={{ my: 2 }}>
-        <img src="/mainlogo.png" height="10px" alt="" />
-      </Typography>
+        <img src="/mainlogo.png" height="50px" alt="" />
 
       <Divider />
       <List>
@@ -107,22 +105,7 @@ export default function SiteLayout() {
               }}
             >
               <RouterLink to="/">
-                <Typography
-                  variant="h6"
-                  fontWeight={900}
-                  sx={{
-                    width: "fit-content",
-                    padding: 2,
-                    border: "1px solid transparent",
-                    borderRadius: "4px",
-                    transition: "border-color 0.3s ease",
-                    "&:hover": {
-                      borderColor: "#fff",
-                    },
-                  }}
-                >
-                  <img src="/mainlogo.png" height="40px" alt="" />
-                </Typography>
+                  <img src="/mainlogo.png" height="60px" alt="" />
               </RouterLink>
             </Box>
             <Box sx={{ display: { xs: "none", sm: "block" } }}>
