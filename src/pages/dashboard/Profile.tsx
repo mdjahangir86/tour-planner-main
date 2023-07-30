@@ -1,7 +1,13 @@
 import { db } from "@config/firebase";
 import { useAuth } from "@hooks/useAuth";
-import { Avatar, Box, Typography } from "@mui/material";
-import { collection, getDocs, query, where } from "firebase/firestore";
+import { Avatar, Box, Button, Typography } from "@mui/material";
+import {
+  collection,
+  getDocs,
+  query,
+  updateDoc,
+  where,
+} from "firebase/firestore";
 import { useEffect, useState } from "react";
 
 function Profile() {
@@ -14,8 +20,8 @@ function Profile() {
     uid: "",
     email: "",
   });
-
-  useEffect(() => {
+  const [formShow, setformShow] = useState(false);
+  const userInfoGet = () => {
     if (user) {
       const q = query(collection(db, "users"), where("uid", "==", user.uid));
 
@@ -39,7 +45,49 @@ function Profile() {
           // Handle error
         });
     }
-  }, [user]);
+  };
+  useEffect(userInfoGet, [user]);
+
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    const form = e.target as HTMLFormElement;
+    const formData = new FormData(form);
+    const displayName = formData.get("displayName") as string;
+    const photoURL = formData.get("photoURL") as string;
+
+    const usersCollectionRef = collection(db, "users");
+
+    // Build a query to find the document with the specified condition
+    const q = query(usersCollectionRef, where("uid", "==", user?.uid));
+
+    // Retrieve the matching document(s) using the query
+    getDocs(q)
+      .then((querySnapshot) => {
+        // Iterate through the query snapshot to access each matching document
+        querySnapshot.forEach((doc) => {
+          // Update the document with the desired fields
+          updateDoc(doc.ref, {
+            ...userInfo,
+            photoURL,
+            displayName,
+          })
+            .then(() => {
+              alert("Document updated successfully.");
+              setInfo({
+                ...userInfo,
+                photoURL,
+                displayName,
+              });
+            })
+            .catch((error) => {
+              alert("Error updating document:");
+            });
+        });
+      })
+      .catch((error) => {
+        alert("Error retrieving documents:");
+      });
+  };
 
   return (
     <>
@@ -81,6 +129,67 @@ function Profile() {
           </a>
         </p>
       </Box>
+      <Box>
+        <Button
+          style={{
+            backgroundColor: "#00695c",
+            color: "#fff",
+            marginLeft: "550px",
+            marginTop: "30px",
+          }}
+          onClick={() => setformShow(true)}
+        >
+          Edit Profile
+        </Button>
+      </Box>
+
+      {formShow && (
+        <Box
+          style={{
+            backgroundColor: "#00695c",
+            color: "#fff",
+            width: "50%",
+            margin: "30px auto",
+            padding: "50px",
+          }}
+        >
+          <form onSubmit={handleSubmit}>
+            <label htmlFor="name">Name </label>
+            <input
+              defaultValue={userInfo.displayName}
+              type="text"
+              name="displayName"
+              id=""
+              style={{ width: "100%", margin: "10px 0 10px 0", padding: "5px" }}
+            />{" "}
+            <br />
+            <label htmlFor="photoURL">PhotoURL </label>
+            <input
+              defaultValue={userInfo.photoURL}
+              type="text"
+              name="photoURL"
+              id=""
+              style={{ width: "100%", margin: "10px 0 10px 0", padding: "5px" }}
+            />{" "}
+            <br />
+            <input
+              type="submit"
+              value="Update"
+              style={{
+                backgroundColor: "#fff",
+                color: "#00695c",
+                width: "25%",
+                margin: "20px auto",
+                fontWeight: "semi-bold",
+                fontSize: "18px",
+                border: "none",
+                padding: "8px",
+                cursor: "pointer",
+              }}
+            ></input>
+          </form>
+        </Box>
+      )}
     </>
   );
 }

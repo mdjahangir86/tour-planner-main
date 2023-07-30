@@ -35,8 +35,7 @@ interface FormValues {
   images: ImageListItem[];
 }
 
-const urlRegEx =
-  /^((ftp|http|https):\/\/)?(www.)?(?!.*(ftp|http|https|www.))[a-zA-Z0-9_-]+(\.[a-zA-Z]+)+((\/)[\w#]+)*(\/\w+\?[a-zA-Z0-9_]+=\w+(&[a-zA-Z0-9_]+=\w+)*)?$/gm;
+const urlRegEx = /^(.*)$/gm;
 
 const schema = yup.object().shape({
   title: yup.string().required("title is required"),

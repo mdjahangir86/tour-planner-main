@@ -1,44 +1,44 @@
-import FallBackSpinner from '@components/fallback-spinner';
-import PrivateRoute from '@components/PrivateRoutes';
-import { useAuth } from '@hooks/useAuth';
-import { useAppDispatch, useAppSelector } from '@hooks/useRedux';
-import DashboardLayout from '@layouts/DashboardLayout';
-import SiteLayout from '@layouts/SiteLayout';
-import UserProfile from '@pages/dashboard/Profile';
+import FallBackSpinner from "@components/fallback-spinner";
+import PrivateRoute from "@components/PrivateRoutes";
+import { useAuth } from "@hooks/useAuth";
+import { useAppDispatch, useAppSelector } from "@hooks/useRedux";
+import DashboardLayout from "@layouts/DashboardLayout";
+import SiteLayout from "@layouts/SiteLayout";
+import UserProfile from "@pages/dashboard/Profile";
 
-import { initialAuthCheck } from '@store/user/authSlice';
-import { lazy, Suspense, useEffect } from 'react';
-import { Route, Routes, useLocation } from 'react-router-dom';
+import { initialAuthCheck } from "@store/user/authSlice";
+import { lazy, Suspense, useEffect } from "react";
+import { Route, Routes, useLocation } from "react-router-dom";
 
-const Home = lazy(() => import('@pages/Home'));
-const NotFound = lazy(() => import('@pages/NotFound'));
+const Home = lazy(() => import("@pages/Home"));
+const NotFound = lazy(() => import("@pages/NotFound"));
 
-const Guides = lazy(() => import('@pages/guides'));
-const GuideDetails = lazy(() => import('@pages/guides/GuideDetails'));
+const Guides = lazy(() => import("@pages/guides"));
+const GuideDetails = lazy(() => import("@pages/guides/GuideDetails"));
 
-const Packages = lazy(() => import('@pages/packages'));
-const PackageDetails = lazy(() => import('@pages/packages/PackageDetails'));
-const CustomPackage = lazy(() => import('@pages/packages/CustomPackage'));
+const Packages = lazy(() => import("@pages/packages"));
+const PackageDetails = lazy(() => import("@pages/packages/PackageDetails"));
+const CustomPackage = lazy(() => import("@pages/packages/CustomPackage"));
 
-const Authentication = lazy(() => import('@pages/Authentication'));
+const Authentication = lazy(() => import("@pages/Authentication"));
 
-const ManagePackages = lazy(() => import('@pages/dashboard/ManagePackages'));
-const ManageGuides = lazy(() => import('@pages/dashboard/ManageGuides'));
-const ManageBookings = lazy(() => import('@pages/dashboard/ManageBookings'));
+const ManagePackages = lazy(() => import("@pages/dashboard/ManagePackages"));
+const ManageGuides = lazy(() => import("@pages/dashboard/ManageGuides"));
+const ManageBookings = lazy(() => import("@pages/dashboard/ManageBookings"));
 const ManageCustomBookings = lazy(
-  () => import('@pages/dashboard/ManageCustomBookings')
+  () => import("@pages/dashboard/ManageCustomBookings")
 );
 const MyCustomBookings = lazy(
-  () => import('@pages/dashboard/MyCustomBookings')
+  () => import("@pages/dashboard/MyCustomBookings")
 );
-const MyBookings = lazy(() => import('@pages/dashboard/MyBookings'));
+const MyBookings = lazy(() => import("@pages/dashboard/MyBookings"));
 const ManagePackagesForm = lazy(
-  () => import('@pages/dashboard/ManagePackagesForm')
+  () => import("@pages/dashboard/ManagePackagesForm")
 );
 const ManageGuidesForm = lazy(
-  () => import('@pages/dashboard/ManageGuidesForm')
+  () => import("@pages/dashboard/ManageGuidesForm")
 );
-const BookingForm = lazy(() => import('@pages/BookingForm'));
+const BookingForm = lazy(() => import("@pages/BookingForm"));
 
 function App() {
   const { pathname } = useLocation();
@@ -53,7 +53,7 @@ function App() {
   }, [user]);
 
   useEffect(() => {
-    window.scrollTo({ top: 0, left: 0, behavior: 'smooth' });
+    window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
   }, [pathname]);
 
   if (loading) {

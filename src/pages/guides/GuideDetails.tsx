@@ -129,7 +129,9 @@ function GuideDetails() {
                 <Paper>
                   <Button
                     variant="contained"
-                    onClick={() => navigate(`/guides/${guideInfo.id}`)}
+                    onClick={() =>
+                      navigate(`/booking/${guideInfo.id}?type=guides`)
+                    }
                   >
                     Book Now
                   </Button>
